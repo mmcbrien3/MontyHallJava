@@ -1,5 +1,7 @@
 package com.mmcbrien.montyhall;
 
+import java.util.Objects;
+
 public class Door {
     
     public enum PRIZE_OPTION {
@@ -8,14 +10,13 @@ public class Door {
     }
     
     private PRIZE_OPTION prize;
+    private final int doorNumber;
     private boolean isSelected = false;
     private boolean isRevealed = false;
     
-    public Door() {
-        
-    }
     
-    public Door(PRIZE_OPTION prize) {
+    public Door(int doorNumber, PRIZE_OPTION prize) {
+        this.doorNumber = doorNumber;
         this.prize = prize;
     }
 
@@ -45,5 +46,22 @@ public class Door {
     
     public boolean isSelected() {
         return isSelected;
+    }
+    
+    public int getDoorNumber() {
+        return doorNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Door door = (Door) o;
+        return doorNumber == door.doorNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(doorNumber);
     }
 }
