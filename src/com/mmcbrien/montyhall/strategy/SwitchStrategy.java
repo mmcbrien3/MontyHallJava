@@ -8,7 +8,6 @@ import java.util.List;
 public class SwitchStrategy implements Strategy {
 
     public Door selectDoor(List<Door> doors) {
-        List<Door> unselectedDoors = DoorUtil.getUnselectedDoors(doors); 
-        return DoorUtil.getRandomDoor(unselectedDoors);
+        return DoorUtil.getRandomDoor(doors.subList(1, doors.size()));
     }
 }

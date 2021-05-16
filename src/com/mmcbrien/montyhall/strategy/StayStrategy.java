@@ -8,6 +8,6 @@ import java.util.List;
 public class StayStrategy implements Strategy {
 
     public Door selectDoor(List<Door> doors) {
-        return DoorUtil.getSelectedDoor(doors);
+        return doors.get(0);
     }
 }
