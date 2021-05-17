@@ -2,7 +2,6 @@ package com.mmcbrien.montyhall.door;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The OptimizedDoorCollection implements the {@link IDoorCollection}. It is a more performant implementation

@@ -23,7 +23,7 @@ public class MontyHallMain {
     public static void main(String[] args) {
 
         int runsPerTest = 1_000_000;
-        int maxNumDoors = 10;
+        int maxNumDoors = 100;
         Path currentPath = Paths.get(System.getProperty("user.dir"));
         Path filePath = Paths.get(currentPath.toString(), "data", "test_results.csv");
 

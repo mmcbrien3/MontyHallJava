@@ -16,7 +16,7 @@ public class Host {
     private final Random rng = new Random();
     
     public Host(int numDoors) {
-        doorCollection = new NaiveDoorCollection();
+        doorCollection = new OptimizedDoorCollection();
         doorCollection.setupDoors(numDoors);
     }
  
