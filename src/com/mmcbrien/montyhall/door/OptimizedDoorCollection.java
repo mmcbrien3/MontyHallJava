@@ -1,35 +1,51 @@
 package com.mmcbrien.montyhall.door;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DoorLinkedList implements IDoorCollection {
-
+/**
+ * The OptimizedDoorCollection implements the {@link IDoorCollection}. It is a more performant implementation
+ * of this interface by exploiting the fact that there are a finite amount of states that the system can be.
+ *
+ * The time-consuming operations performed during the game will include:
+ * - Inserting all doors onto list
+ *  - Insertion into linked list is O(1)
+ * - Selecting a door from the initial doors
+ *  - Access on linked list is O(n) :(
+ * - Revealing a door from the possible doors
+ *  - This is unoptimized currently
+ * - Selecting a door from remaining doors
+ *  - This is the most optimized part of this class. This class optimizes this by preparing the data set in advance
+ *  for this operation. When this stage is reached, the collection of doors will always be in the following
+ *  order: door 1 (revealed) -> door 2 (selected) -> door 3 -> door 4 -> ... -> door N. Therefore, selecting the door
+ *  that is already selected is O(1) and returning the list of possible doors that can be selected for the other
+ *  strategies is also O(1). For a naive implementation, both of these operations would be O(n)
+ */
+public class OptimizedDoorCollection implements IDoorCollection {
     
-    private final LinkedList<Door> doors = new LinkedList<>();
-
+    private final ArrayList<Door> doors = new ArrayList<>();
+    
     @Override
     public void setupDoors(int numDoors)  {
         for (int i = 0; i < numDoors; i++) {
             doors.add(new Door(i, Door.PRIZE_OPTION.GOAT));
         }
 
-        int prizeDoorIndex = random.nextInt(numDoors);
-        doors.get(prizeDoorIndex).setPrize(Door.PRIZE_OPTION.CAR);
+        doors.get(0).setPrize(Door.PRIZE_OPTION.CAR);
     }
-
+    
     @Override
     public List<Door> getDoors() {
         return doors;
     }
-
+    
     @Override
     public void selectDoor(Door door) {
         door.select();
         moveDoorToFrontOfList(door);
     }
-
+    
     @Override
     public void deselectDoor(Door door) {
         door.deselect();
@@ -43,9 +59,9 @@ public class DoorLinkedList implements IDoorCollection {
 
     @Override
     public List<Door> getRevealableDoors() {
-        return doors.stream().filter(
-                d -> !d.isSelected() && !d.isRevealed() && d.getPrize().equals(Door.PRIZE_OPTION.GOAT)
-        ).collect(Collectors.toList());
+        return doors.get(0).getPrize().equals(Door.PRIZE_OPTION.CAR) ? 
+                doors.subList(1, doors.size()) : 
+                doors.subList(2, doors.size());
     }
 
     @Override
@@ -74,7 +90,7 @@ public class DoorLinkedList implements IDoorCollection {
             return null;
         }
     }
-    
+
     private void moveDoorToFrontOfList(Door door) {
         doors.remove(door);
         doors.add(0, door);

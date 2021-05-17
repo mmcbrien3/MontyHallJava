@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DoorArrayList implements IDoorCollection {
+public class NaiveDoorCollection implements IDoorCollection {
     
     private final ArrayList<Door> doors = new ArrayList<>();
     

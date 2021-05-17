@@ -3,6 +3,10 @@ package com.mmcbrien.montyhall.door;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * The IDoorCollection holds a collection of {@link Door} objects and defines the basic
+ * operations that can be taken against them.
+ */
 public interface IDoorCollection {
     
     Random random = new Random();

@@ -1,9 +1,9 @@
 package com.mmcbrien.montyhall;
 
 import com.mmcbrien.montyhall.door.Door;
-import com.mmcbrien.montyhall.door.DoorArrayList;
-import com.mmcbrien.montyhall.door.DoorLinkedList;
 import com.mmcbrien.montyhall.door.IDoorCollection;
+import com.mmcbrien.montyhall.door.NaiveDoorCollection;
+import com.mmcbrien.montyhall.door.OptimizedDoorCollection;
 import com.mmcbrien.montyhall.strategy.IStrategy;
 
 import java.util.List;
@@ -12,20 +12,14 @@ import java.util.Random;
 public class Host {
     
     private IDoorCollection doorCollection;
-    private final int numInitialDoors;
     
     private final Random rng = new Random();
     
     public Host(int numDoors) {
-
-        doorCollection = new DoorLinkedList();
-        this.numInitialDoors = numDoors;
+        doorCollection = new NaiveDoorCollection();
+        doorCollection.setupDoors(numDoors);
     }
-    
-    public void setUpGame() {
-        doorCollection.setupDoors(numInitialDoors);
-    }
-    
+ 
     public Door.PRIZE_OPTION revealSelectedPrize() {
         return doorCollection.getSelectedDoor().getPrize();
     }

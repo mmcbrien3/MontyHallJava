@@ -41,7 +41,8 @@ public class MontyHallMain {
 
             csvWriter.write(csvHeading.toString());
             csvWriter.write("\n");
-
+            
+            long startTime = System.currentTimeMillis();
             for (int numDoors : allNumDoors) {
                 csvWriter.write(Integer.toString(numDoors));
                 csvWriter.write(",");
@@ -57,6 +58,11 @@ public class MontyHallMain {
             }
             csvWriter.flush();
             csvWriter.close();
+            long endTime = System.currentTimeMillis();
+            
+            System.out.println(String.format(
+                    "All operations took %d milliseconds", endTime - startTime
+            ));
         } catch (IOException e) {
             System.err.printf("Error while writing to CSV. %s%n", e);
         }
@@ -79,7 +85,6 @@ public class MontyHallMain {
     
     public static Door.PRIZE_OPTION initAndRunGame(IStrategy IStrategy, int numDoors) {
         Host host = new Host(numDoors);
-        host.setUpGame();
         host.askForSelection(IStrategy);
         
         host.revealDoor();
