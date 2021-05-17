@@ -1,13 +1,11 @@
 package com.mmcbrien.montyhall.strategy;
 
-import com.mmcbrien.montyhall.Door;
-import com.mmcbrien.montyhall.DoorUtil;
+import com.mmcbrien.montyhall.door.Door;
+import com.mmcbrien.montyhall.door.IDoorCollection;
 
-import java.util.List;
-
-public class RandomStrategy implements Strategy {
+public class RandomStrategy implements IStrategy {
     
-    public Door selectDoor(List<Door> doors) {
-        return DoorUtil.getRandomDoor(doors);
+    public Door selectDoor(IDoorCollection doors) {
+        return getRandomDoor(doors.getSelectableDoors());
     }
 }

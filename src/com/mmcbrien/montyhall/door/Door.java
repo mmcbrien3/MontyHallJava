@@ -1,4 +1,4 @@
-package com.mmcbrien.montyhall;
+package com.mmcbrien.montyhall.door;
 
 import java.util.Objects;
 

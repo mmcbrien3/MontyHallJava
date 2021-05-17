@@ -1,8 +1,9 @@
 package com.mmcbrien.montyhall;
 
+import com.mmcbrien.montyhall.door.Door;
 import com.mmcbrien.montyhall.strategy.RandomStrategy;
 import com.mmcbrien.montyhall.strategy.StayStrategy;
-import com.mmcbrien.montyhall.strategy.Strategy;
+import com.mmcbrien.montyhall.strategy.IStrategy;
 import com.mmcbrien.montyhall.strategy.SwitchStrategy;
 
 import java.io.FileWriter;
@@ -22,11 +23,11 @@ public class MontyHallMain {
     public static void main(String[] args) {
 
         int runsPerTest = 1_000_000;
-        int maxNumDoors = 100;
+        int maxNumDoors = 10;
         Path currentPath = Paths.get(System.getProperty("user.dir"));
         Path filePath = Paths.get(currentPath.toString(), "data", "test_results.csv");
 
-        List<Class<? extends Strategy>> allStrategies
+        List<Class<? extends IStrategy>> allStrategies
                 = Arrays.asList(RandomStrategy.class, StayStrategy.class, SwitchStrategy.class);
         List<Integer> allNumDoors
                 = IntStream.range(MIN_NUM_DOORS, maxNumDoors + 1).boxed().collect(Collectors.toList());
@@ -44,7 +45,7 @@ public class MontyHallMain {
             for (int numDoors : allNumDoors) {
                 csvWriter.write(Integer.toString(numDoors));
                 csvWriter.write(",");
-                for (Class<? extends Strategy> strategyClass : allStrategies) {
+                for (Class<? extends IStrategy> strategyClass : allStrategies) {
                     System.out.println(
                             String.format("Running test for %s doors and %s strategy", 
                                     numDoors, strategyClass.getSimpleName()));
@@ -61,7 +62,7 @@ public class MontyHallMain {
         }
     }
     
-    public static float runTest(Class<? extends Strategy> strategyClass, int numDoors, int runsPerTest) {
+    public static float runTest(Class<? extends IStrategy> strategyClass, int numDoors, int runsPerTest) {
         int wins = 0;
         for (int i = 0; i < runsPerTest; i++) {
             try {
@@ -76,14 +77,14 @@ public class MontyHallMain {
         return (float) wins / (float)runsPerTest;
     }
     
-    public static Door.PRIZE_OPTION initAndRunGame(Strategy strategy, int numDoors) {
+    public static Door.PRIZE_OPTION initAndRunGame(IStrategy IStrategy, int numDoors) {
         Host host = new Host(numDoors);
         host.setUpGame();
-        host.askForSelection(strategy);
+        host.askForSelection(IStrategy);
         
         host.revealDoor();
 
-        host.askForSelection(strategy);
+        host.askForSelection(IStrategy);
         
         return host.revealSelectedPrize();
         

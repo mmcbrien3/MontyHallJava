@@ -1,13 +1,11 @@
 package com.mmcbrien.montyhall.strategy;
 
-import com.mmcbrien.montyhall.Door;
-import com.mmcbrien.montyhall.DoorUtil;
+import com.mmcbrien.montyhall.door.Door;
+import com.mmcbrien.montyhall.door.IDoorCollection;
 
-import java.util.List;
+public class StayStrategy implements IStrategy {
 
-public class StayStrategy implements Strategy {
-
-    public Door selectDoor(List<Door> doors) {
-        return doors.get(0);
+    public Door selectDoor(IDoorCollection doors) {
+        return doors.getSelectedDoor();
     }
 }
